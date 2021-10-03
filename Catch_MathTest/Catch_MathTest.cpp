@@ -1,46 +1,60 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include <catch2/catch.hpp>
 
+#include "../Math/Math.h"
 
-SCENARIO("vectors can be sized and resized", "[vector]") {
+using namespace rt_math;
 
-    GIVEN("A vector with some items") {
-        std::vector<int> v(5);
+SCENARIO("A tuple with w=1.0 is a point", "[geometry]") {
 
-        REQUIRE(v.size() == 5);
-        REQUIRE(v.capacity() >= 5);
+    GIVEN("a tuple") {
 
-        WHEN("the size is increased") {
-            v.resize(10);
+        tuple *a = new tuple(4.3f, -4.2f, 3.1f, 1.0f);
 
-            THEN("the size and capacity change") {
-                REQUIRE(v.size() == 10);
-                REQUIRE(v.capacity() >= 10);
-            }
+        THEN("Can access point coordinates")
+        {
+            REQUIRE(eq_f(a->x, 4.3f));
+            REQUIRE(eq_f(a->y, -4.2f));
+            REQUIRE(eq_f(a->z, 3.1f));
+            REQUIRE(eq_f(a->w, 1.0f));
+
+	        AND_THEN("a is a point")
+	        {
+                REQUIRE(a->IsPoint());
+	        }
+
+            AND_THEN("a is not a vector")
+	        {
+                REQUIRE_FALSE(a->IsVector());
+	        }
         }
-        WHEN("the size is reduced") {
-            v.resize(0);
 
-            THEN("the size changes but not capacity") {
-                REQUIRE(v.size() == 0);
-                REQUIRE(v.capacity() >= 5);
-            }
-        }
-        WHEN("more capacity is reserved") {
-            v.reserve(10);
+        
+    }
+}
 
-            THEN("the capacity changes but not the size") {
-                REQUIRE(v.size() == 5);
-                REQUIRE(v.capacity() >= 10);
-            }
-        }
-        WHEN("less capacity is reserved") {
-            v.reserve(0);
+SCENARIO("point() creates tuples with w = 1", "[geometry]")
+{
+	GIVEN("p <- point(4, -4, 3")
+	{
+		const tuple p = point(4, -4, 3);
 
-            THEN("neither size nor capacity are changed") {
-                REQUIRE(v.size() == 5);
-                REQUIRE(v.capacity() >= 5);
-            }
+		THEN("p = tuple(4, -4, 3, 1")
+		{
+            REQUIRE(p == tuple(4, -4, 3, 1));
+		}
+	}
+}
+
+SCENARIO("vector() creates tuples with w = 0", "[geometry]")
+{
+    GIVEN("p <- vector(4, -4, 3")
+    {
+	    const tuple p = vector(4, -4, 3);
+
+        THEN("p = tuple(4, -4, 3, 0")
+        {
+            REQUIRE(p == tuple(4, -4, 3, 0));
         }
     }
 }
