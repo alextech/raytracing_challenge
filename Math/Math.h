@@ -26,6 +26,13 @@ namespace rt_math
 			return w == 0.0f;
 		}
 
+		float inline magnitude()
+		{
+			// since C++11 (and C++17 adds 3 parameters)
+			// std function for square root of sum of squares
+			return std::hypot(this->x, this->y, this->z);
+		}
+
 		friend bool operator==(const tuple &lhs, const tuple &rhs)
 		{
 			return eq_f(lhs.x, rhs.x)

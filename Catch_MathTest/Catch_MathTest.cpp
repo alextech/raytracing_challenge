@@ -186,12 +186,49 @@ SCENARIO("Multiplying a tuple by a fraction", "[coordinates]")
 	}
 }
 
-SCENARIO("Dividing a tuple by a scalar")
+SCENARIO("Dividing a tuple by a scalar", "[coordinates]")
 {
 	GIVEN("a <- tuple(1, -2, 3, -4)")
 	{
 		const tuple a = tuple(1, -2, 3, -4);
 
 		REQUIRE(a / 2 == tuple(0.5, -1, 1.5, -2));
+	}
+}
+
+SCENARIO("Computing the magnitude of a vector(0, 1, 0)", "[coordinates]")
+{
+	GIVEN("v <- vector(0, 1, 0)")
+	{
+		tuple v = vector(0, 1, 0);
+
+		REQUIRE(eq_f(v.magnitude(), 1));
+	}
+}
+SCENARIO("Computing the magnitude of a vector(0, 0, 1)", "[coordinates]")
+{
+	GIVEN("v <- vector(0, 0, 1)")
+	{
+		tuple v = vector(0, 0, 1);
+
+		REQUIRE(eq_f(v.magnitude(), 1));
+	}
+}
+SCENARIO("Computing the magnitude of a vector(1, 2, 3)", "[coordinates]")
+{
+	GIVEN("v <- vector(1, 2, 3)")
+	{
+		tuple v = vector(1, 2, 3);
+
+		REQUIRE(eq_f(v.magnitude(), std::sqrt(14.0f)));
+	}
+}
+SCENARIO("Computing the magnitude of a vector(-1, -2, -3)", "[coordinates]")
+{
+	GIVEN("v <- vector(-1, -2, -3)")
+	{
+		tuple v = vector(-1, -2, -3);
+
+		REQUIRE(eq_f(v.magnitude(), std::sqrt(14.0f)));
 	}
 }
