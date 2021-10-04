@@ -70,6 +70,17 @@ namespace rt_math
 		{
 			return tuple(0 - rhs.x, 0 - rhs.y, 0 - rhs.z, 0 - rhs.w);
 		}
+
+		friend tuple operator*(const tuple &lhs, float const a)
+		{
+			return tuple(lhs.x * a, lhs.y * a, lhs.z * a, lhs.w * a);
+		}
+
+		friend tuple operator/(const tuple &lhs, float const a)
+		{
+			return tuple(lhs.x / a, lhs.y / a, lhs.z / a, lhs.w / a);
+		}
+
 	};
 
 	tuple inline point(float const x, float const y, float const z)

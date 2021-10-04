@@ -147,7 +147,7 @@ SCENARIO("Subtracting a vector from a zero vector", "[coordinates]")
 	{
 		const tuple zero = vector(0, 0, 0);
 
-		AND_GIVEN("v <- vector(1, -2, 3")
+		AND_GIVEN("v <- vector(1, -2, 3)")
 		{
 			const tuple v = vector(1, -2, 3);
 
@@ -158,10 +158,40 @@ SCENARIO("Subtracting a vector from a zero vector", "[coordinates]")
 
 SCENARIO("Negating a tuple", "[coordinates]")
 {
-	GIVEN("a <- tuple(1, -2, 3, -4")
+	GIVEN("a <- tuple(1, -2, 3, -4)")
 	{
 		const tuple a = tuple(1, -2, 3, -4);
 
 		REQUIRE(-a == tuple(-1, 2, -3, 4));
+	}
+}
+
+SCENARIO("Multiplying a tuple by a scalar", "[coordinates]")
+{
+	GIVEN("a <- tuple(1, -2, 3, -4)")
+	{
+		const tuple a = tuple(1, -2, 3, -4);
+
+		REQUIRE(a * 3.5 == tuple(3.5, -7, 10.5, -14));
+	}
+}
+
+SCENARIO("Multiplying a tuple by a fraction", "[coordinates]")
+{
+	GIVEN("a <- tuple(1, -2, 3, -4)")
+	{
+		const tuple a = tuple(1, -2, 3, -4);
+
+		REQUIRE(a * 0.5 == tuple(0.5, -1, 1.5, -2));
+	}
+}
+
+SCENARIO("Dividing a tuple by a scalar")
+{
+	GIVEN("a <- tuple(1, -2, 3, -4)")
+	{
+		const tuple a = tuple(1, -2, 3, -4);
+
+		REQUIRE(a / 2 == tuple(0.5, -1, 1.5, -2));
 	}
 }
