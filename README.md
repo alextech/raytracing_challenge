@@ -1,3 +1,14 @@
+Installation
+===============
+
+Use [vcpkg - c++ library repository](https://vcpkg.io/en/index.html)
+
+Install catch2 dependency for unit tests:
+
+`vcpkg install catch2:x64-windows`
+
+To run tests:
+
 Design Decisions
 ================
 
