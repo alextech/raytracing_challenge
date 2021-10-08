@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <cassert>
 
 namespace rt_math
 {
@@ -95,11 +96,20 @@ namespace rt_math
 
 		friend tuple normalize(const tuple &v)
 		{
+			assert(v.IsVector());
+
 			const float magnitude = v.magnitude();
 			return vector(v.x / magnitude,
 						  v.y / magnitude,
 						  v.z / magnitude
 			);
+		}
+
+		friend float dot(const tuple &a, const tuple &b)
+		{
+			assert(a.IsVector() && b.IsVector());
+
+			return a.x * b.x + a.y * b.y + a.z * b.z;
 		}
 
 	};
