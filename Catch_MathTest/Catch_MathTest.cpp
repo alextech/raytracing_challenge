@@ -232,3 +232,41 @@ SCENARIO("Computing the magnitude of a vector(-1, -2, -3)", "[coordinates]")
 		REQUIRE(eq_f(v.magnitude(), std::sqrt(14.0f)));
 	}
 }
+
+SCENARIO("Normalizing vector(4, 0, 0) gives (1, 0, 0)", "[coordinates]")
+{
+	GIVEN("v <- vector(4, 0, 0)")
+	{
+		const tuple v = vector(4, 0, 0);
+
+		REQUIRE(normalize(v) == vector(1, 0, 0));
+	}
+}
+
+SCENARIO("Normalizing vector(1, 2, 3) gives (1, 0, 0)", "[coordinates]")
+{
+	GIVEN("v <- vector(1, 2, 3)")
+	{
+		const tuple v = vector(1, 2, 3);
+
+		REQUIRE(normalize(v) == vector(0.26726f, 0.53452f, 0.80178f));
+	}
+}
+
+SCENARIO("The magnitude of a normalized vector", "[coordinates]")
+{
+	GIVEN("v <- vector(1, 2, 3)")
+	{
+		const tuple v = vector(1, 2, 3);
+		WHEN("normalize")
+		{
+			const tuple norm = normalize(v);
+
+			// if using object instance method - mutation style:
+			// v.normalize();
+			// REQUIRE(v.magnitude() == 1);
+
+			REQUIRE(norm.magnitude() == 1.0f);
+		}
+	}
+}

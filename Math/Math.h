@@ -9,6 +9,10 @@ namespace rt_math
 		return std::abs(a - b) < EPSILON;
 	}
 
+	struct tuple;
+	tuple inline vector(float x, float y, float z);
+	tuple inline point(float x, float y, float z);
+
 	struct tuple
 	{
 		float x; float y; float z; float w;
@@ -26,7 +30,8 @@ namespace rt_math
 			return w == 0.0f;
 		}
 
-		float inline magnitude()
+		[[nodiscard]]
+		float magnitude() const
 		{
 			// since C++11 (and C++17 adds 3 parameters)
 			// std function for square root of sum of squares
@@ -86,6 +91,15 @@ namespace rt_math
 		friend tuple operator/(const tuple &lhs, float const a)
 		{
 			return tuple(lhs.x / a, lhs.y / a, lhs.z / a, lhs.w / a);
+		}
+
+		friend tuple normalize(const tuple &v)
+		{
+			const float magnitude = v.magnitude();
+			return vector(v.x / magnitude,
+						  v.y / magnitude,
+						  v.z / magnitude
+			);
 		}
 
 	};
