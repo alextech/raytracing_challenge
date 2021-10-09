@@ -112,6 +112,17 @@ namespace rt_math
 			return a.x * b.x + a.y * b.y + a.z * b.z;
 		}
 
+		friend tuple cross(const tuple &a, const tuple &b)
+		{
+			assert(a.IsVector() && b.IsVector());
+
+			return vector(
+				a.y * b.z - a.z * b.y,
+				a.z * b.x - a.x * b.z,
+				a.x * b.y - a.y * b.x
+			);
+		}
+
 	};
 
 	tuple inline point(float const x, float const y, float const z)

@@ -271,7 +271,7 @@ SCENARIO("The magnitude of a normalized vector", "[coordinates]")
 	}
 }
 
-SCENARIO("The dot product of two tuples", "[coordinates]")
+SCENARIO("Dot product of two tuples", "[coordinates]")
 {
 	GIVEN("a <- vector(1, 2, 3)")
 	{
@@ -283,6 +283,22 @@ SCENARIO("The dot product of two tuples", "[coordinates]")
 			const tuple b = vector(2, 3, 4);
 
 			REQUIRE(dot(a, b) == 20.0f);
+		}
+	}
+}
+
+SCENARIO("Cross product of two vectors", "[coordinates]")
+{
+	GIVEN("a <- fector(1, 2, 3)")
+	{
+		const tuple a = vector(1, 2, 3);
+
+		AND_GIVEN("b <- vector(2, 3, 4)")
+		{
+			const tuple b = vector(2, 3, 4);
+
+			REQUIRE(cross(a, b) == vector(-1, 2, -1));
+			REQUIRE(cross(b, a) == vector(1, -2, 1));
 		}
 	}
 }
