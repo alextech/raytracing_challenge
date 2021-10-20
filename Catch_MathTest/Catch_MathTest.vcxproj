@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Catch_MathTest.cpp" />
+    <ClCompile Include="Catch_ColorTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

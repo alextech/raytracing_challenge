@@ -18,8 +18,8 @@ namespace rt_math
 	{
 		float x; float y; float z; float w;
 
-		tuple(float const x, float const y, float const z, float const w)
-			: x(x), y(y), z(z), w(w) {}
+		// tuple(float const x, float const y, float const z, float const w)
+		// 	: x(x), y(y), z(z), w(w) {}
 
 		bool IsPoint() const
 		{
@@ -39,7 +39,7 @@ namespace rt_math
 			return std::hypot(this->x, this->y, this->z);
 		}
 
-		friend bool operator==(const tuple &lhs, const tuple &rhs)
+		friend bool operator==(const tuple lhs, const tuple &rhs)
 		{
 			return eq_f(lhs.x, rhs.x)
 				&& eq_f(lhs.y, rhs.y)
@@ -125,9 +125,64 @@ namespace rt_math
 
 	};
 
+	struct color
+	{
+		float red; float green; float blue;
+
+		friend color operator+(const color &c1, const color &c2)
+		{
+			return color{
+				.red = c1.red + c2.red,
+				.green = c1.green + c2.green,
+				.blue = c1.blue + c2.blue
+			};
+		}
+
+		friend color operator-(const color &c1, const color &c2)
+		{
+			return color{
+				.red = c1.red - c2.red,
+				.green = c1.green - c2.green,
+				.blue = c1.blue - c2.blue
+			};
+		}
+
+		friend bool operator==(const color &lhs, const color &rhs)
+		{
+			return eq_f(lhs.red, rhs.red)
+				&& eq_f(lhs.green, rhs.green)
+				&& eq_f(lhs.blue, rhs.blue);
+		}
+
+		friend bool operator!=(const color &lhs, const color &rhs)
+		{
+			return !(lhs == rhs);
+		}
+
+		friend color operator*(const color &lhs, const float rhs)
+		{
+			return color(lhs.red * rhs, lhs.green * rhs, lhs.blue * rhs);
+		}
+
+		/*
+		 * Hadamard product
+		 */
+		friend color operator*(const color &lhs, const color &rhs)
+		{
+			return color(lhs.red * rhs.red, lhs.green * rhs.green, lhs.blue * rhs.blue);
+		}
+	};
+
 	tuple inline point(float const x, float const y, float const z)
 	{
-		return tuple(x, y, z, 1);
+		// return tuple(x, y, z, 1);
+
+		return tuple {
+			.x = x,
+			.y = y,
+			.z = z,
+			.w = 1
+		};
 	}
 
 	tuple inline vector(float const x, float const y, float const z)
