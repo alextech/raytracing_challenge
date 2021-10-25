@@ -1,4 +1,6 @@
+#pragma warning(push, 0)
 #include <catch2/catch.hpp>
+#pragma warning(pop)
 #include "../Math/Math.h"
 
 using namespace rt_math;
