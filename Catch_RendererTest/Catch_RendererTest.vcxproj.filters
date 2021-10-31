@@ -18,6 +18,9 @@
     <ClCompile Include="Catch_CanvasTest.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Catch_PpmWriterTest.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

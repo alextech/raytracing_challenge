@@ -155,6 +155,7 @@
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PpmWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Canvas.cpp" />
@@ -164,7 +165,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="PpmWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Math\Math.vcxproj">

@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Catch_CanvasTest.cpp" />
+    <ClCompile Include="Catch_PpmWriterTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Renderer\Renderer.vcxproj">
