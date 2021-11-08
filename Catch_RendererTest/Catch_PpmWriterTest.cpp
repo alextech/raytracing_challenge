@@ -112,3 +112,53 @@ R"(255 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 		}
 	}
 }
+
+SCENARIO("Splitting long lines in PPM files", "[ppm]")
+{
+	GIVEN("c <- canvas(10, 2)")
+	{
+		Canvas* c = new Canvas(10, 2);
+
+		WHEN("every pixel of c is set to color(1, 0.8, 0.6)")
+		{
+			constexpr color color = rt_math::color(1, 0.8, 0.6);
+
+			for (unsigned int y = 0; y < 2; y++)
+			{
+				for (unsigned int x = 0; x < 10; x++)
+				{
+					c->write_pixel(x, y, color);
+				}
+			}
+
+			AND_WHEN("ppm <- canvas_to_ppm(c)")
+			{
+
+				const PpmWriter* writer = new PpmWriter(tmpFileName);
+				writer->canvas_to_ppm(c);
+
+				REQUIRE(read_lines(4, 7) ==
+R"(255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+153 255 204 153 255 204 153 255 204 153 255 204 153
+255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+153 255 204 153 255 204 153 255 204 153 255 204 153)");
+			}
+		}
+	}
+}
+
+SCENARIO("PPM files are terminated by a newline character", "[ppm]")
+{
+	GIVEN("c <- canvas(5, 3)")
+	{
+		Canvas* c = new Canvas(10, 2);
+
+		WHEN("ppm <- canvas_to_ppm(c)")
+		{
+			const PpmWriter* writer = new PpmWriter(tmpFileName);
+			writer->canvas_to_ppm(c);
+
+			REQUIRE(read_lines(8, 8).empty());
+		}
+	}
+}
