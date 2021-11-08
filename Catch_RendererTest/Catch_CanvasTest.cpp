@@ -29,7 +29,7 @@ SCENARIO("Writing pixels to a canvas", "[canvas]")
 {
 	GIVEN("c <- canvas(10, 20)")
 	{
-		const Canvas* c = new Canvas(10, 20);
+		Canvas* c = new Canvas(10, 20);
 
 		AND_GIVEN("red <- color(1, 0, 0)")
 		{

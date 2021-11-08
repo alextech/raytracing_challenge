@@ -50,7 +50,7 @@ SCENARIO("Constructing the PPM header", "[ppm]")
 
 		WHEN("ppm <- canvas_to_ppm(c)")
 		{
-			PpmWriter* writer = new PpmWriter(tmpFileName);
+			const PpmWriter* writer = new PpmWriter(tmpFileName);
 			writer->canvas_to_ppm(c);
 
 			REQUIRE(read_lines(1, 3) == 
@@ -98,8 +98,7 @@ SCENARIO("Constructing the PPM pixel data", "[ppm]")
 
 								AND_WHEN("ppm <- canvas_to_ppm(c)")
 								{
-
-									PpmWriter* writer = new PpmWriter(tmpFileName);
+									const PpmWriter* writer = new PpmWriter(tmpFileName);
 									writer->canvas_to_ppm(c);
 
 									REQUIRE(read_lines(4, 6) ==
