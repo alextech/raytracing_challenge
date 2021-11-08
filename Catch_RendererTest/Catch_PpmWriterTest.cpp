@@ -69,17 +69,15 @@ SCENARIO("Constructing the PPM pixel data", "[ppm]")
 
 		AND_GIVEN("c1 <- color(1.5, 0, 0)")
 		{
-			color c1 = color(1.5, 0, 0);
+			constexpr color c1 = color(1.5, 0, 0);
 
 			AND_GIVEN("c2 <- color(0, 0.5, 0)")
 			{
-
-				color c2 = color(0, 0.5, 0);
+				constexpr color c2 = color(0, 0.5, 0);
 
 				AND_GIVEN("c3 <- color(-0.5, 0, 1")
 				{
-
-					color c3 = color(-0.5, 0, 1);
+					constexpr color c3 = color(-0.5, 0, 1);
 
 					WHEN("write_pixel(c, 0, 0, c1)")
 					{
