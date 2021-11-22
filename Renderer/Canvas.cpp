@@ -2,6 +2,11 @@
 #include "Canvas.h"
 #include <cassert>
 
+#ifdef VERBOSE
+#include <iostream>
+#endif
+
+
 Canvas::Canvas(unsigned int const width, unsigned int const height) : width(width), height(height)
 {
 	unsigned int const grid_size = width * height;
@@ -22,11 +27,13 @@ rt_math::color Canvas::pixel_at(unsigned int const x, unsigned int const y) cons
 	return this->grid_[offset];
 }
 
-void Canvas::write_pixel(unsigned const x, unsigned const y, const rt_math::color color)
+void Canvas::write_pixel(unsigned const int x, unsigned const int y, const rt_math::color color)
 {
 	unsigned int const offset = this->width * y + x;
-	assert(offset < this->grid_size_);
-
+#ifdef VERBOSE
+	std::cout << "Writing pixel (" << x << ", " << y << ") outside of canvas dimensions " << this->width << "x" << this->height << std::endl;
+#endif
+	if (offset > this->grid_size_) return;
 
 	this->grid_[offset] = color;
 }
