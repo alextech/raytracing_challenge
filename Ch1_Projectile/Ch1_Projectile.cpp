@@ -10,7 +10,7 @@ int main()
 	const rt_math::tuple startingPoint = rt_math::point(0, 1, 0);
 	const rt_math::tuple startingVelocity = normalize(rt_math::vector(1, 1.8f, 0)) * 11.25f;
 
-	const Projectile *projectile = new Projectile(
+	Projectile *projectile = new Projectile(
         startingPoint,
         startingVelocity
     );
@@ -40,10 +40,7 @@ int main()
             rt_math::color(1, 0, 0)
         );
 
-        const Projectile *oldProjectilePtr = projectile;
-        projectile = tick(environment, projectile);
-
-        delete oldProjectilePtr;
+        tick(environment, projectile);
     }
 
     delete environment;

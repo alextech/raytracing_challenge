@@ -1,10 +1,11 @@
 #include "simulator.h"
 
 
-Projectile *tick(const Environment *environment, const Projectile* projectile)
+void tick(const Environment *environment, Projectile* projectile)
 {
 	const rt_math::tuple position = projectile->position + projectile->velocity;
 	const rt_math::tuple velocity = projectile->velocity + environment->gravity + environment->wind;
 
-	return new Projectile(position, velocity);
+	projectile->position = position;
+	projectile->velocity = velocity;
 }

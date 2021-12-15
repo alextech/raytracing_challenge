@@ -4,10 +4,10 @@
 class Projectile
 {
 	public:
-		const rt_math::tuple position;
-		const rt_math::tuple velocity;
+		rt_math::tuple position;
+		rt_math::tuple velocity;
 
-		Projectile(rt_math::tuple position, rt_math::tuple velocity)
+		Projectile(rt_math::tuple const position, rt_math::tuple const velocity)
 			: position(position), velocity(velocity) {}
 };
 
@@ -21,4 +21,4 @@ class Environment
 			: gravity(gravity), wind(wind) {}
 };
 
-Projectile* tick(const Environment* environment, const Projectile* projectile);
+void tick(const Environment* environment, Projectile* projectile);
