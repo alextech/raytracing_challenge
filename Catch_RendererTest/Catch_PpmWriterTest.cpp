@@ -121,7 +121,7 @@ SCENARIO("Splitting long lines in PPM files", "[ppm]")
 
 		WHEN("every pixel of c is set to color(1, 0.8, 0.6)")
 		{
-			constexpr color color = rt_math::color(1, 0.8, 0.6);
+			constexpr color color = rt_math::color(1, 0.8f, 0.6f);
 
 			for (unsigned int y = 0; y < 2; y++)
 			{
