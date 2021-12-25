@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Catch_MathTest.cpp">
+    <ClCompile Include="Catch_MathCoordinatesTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Catch_ColorTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Catch_MathMatrixTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

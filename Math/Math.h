@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <cassert>
+#include <vector>
 
 namespace rt_math
 {
@@ -189,4 +190,31 @@ namespace rt_math
 	{
 		return tuple(x, y, z, 0);
 	}
+
+	class M_4x4
+	{
+		public:
+			M_4x4(
+				float r1_c1,
+				float r1_c2,
+				float r1_c3,
+				float r1_c4,
+				float r2_c1,
+				float r2_c2,
+				float r2_c3,
+				float r2_c4,
+				float r3_c1,
+				float r3_c2,
+				float r3_c3,
+				float r3_c4,
+				float r4_c1,
+				float r4_c2,
+				float r4_c3,
+				float r4_c4
+			);
+
+			float at(int row, int column);
+	private:
+			std::vector<float> _matrix;
+	};
 }
