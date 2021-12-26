@@ -191,30 +191,68 @@ namespace rt_math
 		return tuple(x, y, z, 0);
 	}
 
+	template <typename T>
 	class M_4x4
 	{
 		public:
 			M_4x4(
-				float r1_c1,
-				float r1_c2,
-				float r1_c3,
-				float r1_c4,
-				float r2_c1,
-				float r2_c2,
-				float r2_c3,
-				float r2_c4,
-				float r3_c1,
-				float r3_c2,
-				float r3_c3,
-				float r3_c4,
-				float r4_c1,
-				float r4_c2,
-				float r4_c3,
-				float r4_c4
+				T r1_c1,
+				T r1_c2,
+				T r1_c3,
+				T r1_c4,
+				T r2_c1,
+				T r2_c2,
+				T r2_c3,
+				T r2_c4,
+				T r3_c1,
+				T r3_c2,
+				T r3_c3,
+				T r3_c4,
+				T r4_c1,
+				T r4_c2,
+				T r4_c3,
+				T r4_c4
 			);
 
-			float at(int row, int column);
-	private:
-			std::vector<float> _matrix;
+			T at(const int row, const int column) const;
+		private:
+			std::vector<T> matrix_;
+	};
+
+	template <typename T>
+	class M_2x2
+	{
+		public:
+			M_2x2(
+				const T r1_c1,
+				const T r1_c2,
+				const T r2_c1,
+				const T r2_c2
+			);
+
+			T at(const int row, const int column) const;
+		private:
+			std::vector<T> matrix_;
+	};
+
+	template <typename T>
+	class M_3x3
+	{
+		public:
+			M_3x3(
+				const T r1_c1,
+				const T r1_c2,
+				const T r1_c3,
+				const T r2_c1,
+				const T r2_c2,
+				const T r2_c3,
+				const T r3_c1,
+				const T r3_c2,
+				const T r3_c3
+			);
+
+			T at(const int row, const int column) const;
+		private:
+			std::vector<T> matrix_;
 	};
 }

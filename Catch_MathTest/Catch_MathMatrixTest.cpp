@@ -6,12 +6,13 @@
 
 using namespace rt_math;
 
-SCENARIO("Constructing and inspecting a 4x4 matrix", "[matrix]") {
+SCENARIO("Constructing and inspecting a 4x4 matrix", "[matrix]")
+{
 
 	GIVEN("4x4 matrix M")
 	{
 
-		M_4x4 M = M_4x4(
+		M_4x4<float> M = M_4x4<float>(
 			1, 2, 3, 4,
 			5.5, 6.5, 7.5, 8.5,
 			9, 10, 11, 12,
@@ -25,5 +26,37 @@ SCENARIO("Constructing and inspecting a 4x4 matrix", "[matrix]") {
 		REQUIRE(11.0f == M.at(2, 2));
 		REQUIRE(13.5f == M.at(3, 0));
 		REQUIRE(15.5f == M.at(3, 2));
+	}
+}
+
+SCENARIO("A 2x2 matrix ought to be representable", "[matrix]")
+{
+	GIVEN("2x2 matrix M")
+	{
+		M_2x2<int> M = M_2x2<int>(
+			-3, 5,
+			1, -2
+		);
+
+		REQUIRE(-3 == M.at(0, 0));
+		REQUIRE(5 == M.at(0, 1));
+		REQUIRE(1 == M.at(1, 0));
+		REQUIRE(-2 == M.at(1, 1));
+	}
+}
+
+SCENARIO("A 3x3 matrix ought to be representable", "[matrix]")
+{
+	GIVEN("3x3 matrix M")
+	{
+		M_3x3<int> M = M_3x3<int>(
+			-3, 5, 0,
+			1, -2, -7,
+			0, 1, 1
+		);
+
+		REQUIRE(-3 == M.at(0, 0));
+		REQUIRE(-2 == M.at(1, 1));
+		REQUIRE(1 == M.at(2, 2));
 	}
 }
