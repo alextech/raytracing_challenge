@@ -1,5 +1,10 @@
 #include "Math.h"
 
+rt_math::color operator*(const rt_math::color lhs, const float rhs)
+{
+	return rt_math::color(lhs.red * rhs, lhs.green * rhs, lhs.blue * rhs);
+}
+
 template <typename T>
 rt_math::M_4x4<T>::M_4x4(T r1_c1, T r1_c2, T r1_c3, T r1_c4, T r2_c1, T r2_c2, T r2_c3,
 	T r2_c4, T r3_c1, T r3_c2, T r3_c3, T r3_c4, T r4_c1, T r4_c2, T r4_c3, T r4_c4)

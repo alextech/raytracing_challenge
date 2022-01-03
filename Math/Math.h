@@ -11,6 +11,17 @@ namespace rt_math
 		return std::abs(a - b) < EPSILON;
 	}
 
+	template <typename T>
+	bool eq(T lhs, T rhs)
+	{
+		return lhs == rhs;
+	}
+
+	inline bool eq(const float lhs, const float rhs)
+	{
+		return eq_f(lhs, rhs);
+	}
+
 	struct tuple;
 	tuple inline vector(float x, float y, float z);
 	tuple inline point(float x, float y, float z);
@@ -215,6 +226,19 @@ namespace rt_math
 			);
 
 			T at(const int row, const int column) const;
+
+			friend bool operator==(const M_4x4 &lhs, const M_4x4 &rhs)
+			{
+				return std::equal(
+					lhs.matrix_.begin(), lhs.matrix_.end(),
+					rhs.matrix_.begin(),
+					[](const T& left, const T& right)
+					{
+						return eq(left, right);
+					}
+				);
+			}
+
 		private:
 			std::vector<T> matrix_;
 	};

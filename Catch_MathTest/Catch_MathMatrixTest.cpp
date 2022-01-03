@@ -60,3 +60,25 @@ SCENARIO("A 3x3 matrix ought to be representable", "[matrix]")
 		REQUIRE(1 == M.at(2, 2));
 	}
 }
+
+SCENARIO("Matrix equality with identical matrices", "[matrix]")
+{
+	GIVEN("Matrix A and matrix B")
+	{
+		M_4x4<int> A = M_4x4<int>(
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 8, 7, 6,
+			5, 4, 3, 2
+		);
+
+		M_4x4<int> B = M_4x4<int>(
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 8, 7, 6,
+			5, 4, 3, 2
+		);
+
+		REQUIRE(A == B);
+	}
+}
