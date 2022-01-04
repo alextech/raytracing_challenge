@@ -1,9 +1,17 @@
+#include <cassert>
 #include "Math.h"
 
-rt_math::color operator*(const rt_math::color lhs, const float rhs)
-{
-	return rt_math::color(lhs.red * rhs, lhs.green * rhs, lhs.blue * rhs);
-}
+// ======================================
+//             MATRIX DEFINITIONS
+// ======================================
+
+template class rt_math::M_4x4<float>;
+template class rt_math::M_4x4<int>;
+template class rt_math::M_2x2<float>;
+template class rt_math::M_2x2<int>;
+template class rt_math::M_3x3<float>;
+template class rt_math::M_3x3<int>;
+
 
 template <typename T>
 rt_math::M_4x4<T>::M_4x4(T r1_c1, T r1_c2, T r1_c3, T r1_c4, T r2_c1, T r2_c2, T r2_c3,
@@ -75,9 +83,8 @@ T rt_math::M_3x3<T>::at(const int row, const int column) const
 	return matrix_[index];
 }
 
-template class rt_math::M_4x4<float>;
-template class rt_math::M_4x4<int>;
-template class rt_math::M_2x2<float>;
-template class rt_math::M_2x2<int>;
-template class rt_math::M_3x3<float>;
-template class rt_math::M_3x3<int>;
+
+// =======================================
+//            OPERATIONS WITH MATRICIES
+// =======================================
+

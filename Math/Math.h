@@ -1,6 +1,5 @@
 #pragma once
 #include <cmath>
-#include <cassert>
 #include <vector>
 
 namespace rt_math
@@ -17,53 +16,27 @@ namespace rt_math
 		return lhs == rhs;
 	}
 
+	template < >
 	inline bool eq(const float lhs, const float rhs)
 	{
 		return eq_f(lhs, rhs);
 	}
 
-	struct tuple;
-	tuple inline vector(float x, float y, float z);
-	tuple inline point(float x, float y, float z);
-
 	struct tuple
 	{
 		float x; float y; float z; float w;
 
-		// tuple(float const x, float const y, float const z, float const w)
-		// 	: x(x), y(y), z(z), w(w) {}
-
-		bool IsPoint() const
-		{
-			return w == 1.0f;
-		}
-
-		bool IsVector() const
-		{
-			return w == 0.0f;
-		}
+		[[nodiscard]]
+		bool IsPoint() const;
 
 		[[nodiscard]]
-		float magnitude() const
-		{
-			// since C++11 (and C++17 adds 3 parameters)
-			// std function for square root of sum of squares
-			return std::hypot(this->x, this->y, this->z);
-		}
+		bool IsVector() const;
 
-		friend bool operator==(const tuple lhs, const tuple &rhs)
-		{
-			return eq_f(lhs.x, rhs.x)
-				&& eq_f(lhs.y, rhs.y)
-				&& eq_f(lhs.z, rhs.z)
-				&& eq_f(lhs.w, rhs.w);
-		}
+		[[nodiscard]]
+		float magnitude() const;
 
-		friend bool operator!=(const tuple &lhs, const tuple &rhs)
-		{
-			return !(lhs == rhs);
-		}
-
+		friend bool operator==(const tuple lhs, const tuple &rhs);
+		friend bool operator!=(const tuple &lhs, const tuple &rhs);
 		/*
 		 * This is a good example of why class inheritance for Point and Vector types do not make sense.
 		 *
@@ -72,124 +45,33 @@ namespace rt_math
 		 * Adding w=1 (point) to a w=1 (point) produces w=2, undefined here,
 		 *   which matches the fact that mathematically cannot add point and a point.
 		 */
-		friend tuple operator+(const tuple &lhs, const tuple &rhs)
-		{
-			return tuple(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w);
-		}
-
-		/*
-		 * Subtracting w=1 (point) - w=1 (point) gives w=0 (vector), as expected mathematically,
-		 *   giving __direction__ between two points.
-		 *
-		 * Useful for chapter 6 - finding vector pointing to light source.
-		 */
-		friend tuple operator-(const tuple &lhs, const tuple &rhs)
-		{
-			return tuple(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w);
-		}
-
-		/*
-		 * Negating vector. Useful for chapter 6 - shading.
-		 */
-		friend tuple operator-(const tuple &rhs)
-		{
-			return tuple(0 - rhs.x, 0 - rhs.y, 0 - rhs.z, 0 - rhs.w);
-		}
-
-		friend tuple operator*(const tuple &lhs, float const a)
-		{
-			return tuple(lhs.x * a, lhs.y * a, lhs.z * a, lhs.w * a);
-		}
-
-		friend tuple operator/(const tuple &lhs, float const a)
-		{
-			return tuple(lhs.x / a, lhs.y / a, lhs.z / a, lhs.w / a);
-		}
-
-		friend tuple normalize(const tuple &v)
-		{
-			assert(v.IsVector());
-
-			const float magnitude = v.magnitude();
-			return vector(v.x / magnitude,
-						  v.y / magnitude,
-						  v.z / magnitude
-			);
-		}
-
-		friend float dot(const tuple &a, const tuple &b)
-		{
-			assert(a.IsVector() && b.IsVector());
-
-			return a.x * b.x + a.y * b.y + a.z * b.z;
-		}
-
-		friend tuple cross(const tuple &a, const tuple &b)
-		{
-			assert(a.IsVector() && b.IsVector());
-
-			return vector(
-				a.y * b.z - a.z * b.y,
-				a.z * b.x - a.x * b.z,
-				a.x * b.y - a.y * b.x
-			);
-		}
-
+		friend tuple operator+(const tuple &lhs, const tuple &rhs);
+		friend tuple operator-(const tuple &lhs, const tuple &rhs);
+		friend tuple operator-(const tuple &rhs);
+		friend tuple operator*(const tuple &lhs, float const a);
+		friend tuple operator/(const tuple &lhs, float const a);
+		friend tuple normalize(const tuple &v);
+		friend float dot(const tuple &a, const tuple &b);
+		friend tuple cross(const tuple &a, const tuple &b);
 	};
 
-	struct color
-	{
-		float red; float green; float blue;
+	float dot(const tuple& a, const tuple& b);
+	tuple cross(const tuple& a, const tuple& b);
 
-		friend color operator+(const color &c1, const color &c2)
-		{
-			return color{
-				.red = c1.red + c2.red,
-				.green = c1.green + c2.green,
-				.blue = c1.blue + c2.blue
-			};
-		}
-
-		friend color operator-(const color &c1, const color &c2)
-		{
-			return color{
-				.red = c1.red - c2.red,
-				.green = c1.green - c2.green,
-				.blue = c1.blue - c2.blue
-			};
-		}
-
-		friend bool operator==(const color &lhs, const color &rhs)
-		{
-			return eq_f(lhs.red, rhs.red)
-				&& eq_f(lhs.green, rhs.green)
-				&& eq_f(lhs.blue, rhs.blue);
-		}
-
-		friend bool operator!=(const color &lhs, const color &rhs)
-		{
-			return !(lhs == rhs);
-		}
-
-		friend color operator*(const color &lhs, const float rhs)
-		{
-			return color(lhs.red * rhs, lhs.green * rhs, lhs.blue * rhs);
-		}
-
-		/*
-		 * Hadamard product
-		 */
-		friend color operator*(const color &lhs, const color &rhs)
-		{
-			return color(lhs.red * rhs.red, lhs.green * rhs.green, lhs.blue * rhs.blue);
-		}
-	};
-
-	tuple inline point(float const x, float const y, float const z)
+	tuple inline vector(const float x, const float y, const float z)
 	{
 		// return tuple(x, y, z, 1);
 
-		return tuple {
+		return tuple{
+			.x = x,
+			.y = y,
+			.z = z,
+			.w = 0
+		};
+	}
+	tuple inline point(const float x, const float y, const float z)
+	{
+		return tuple{
 			.x = x,
 			.y = y,
 			.z = z,
@@ -197,10 +79,21 @@ namespace rt_math
 		};
 	}
 
-	tuple inline vector(float const x, float const y, float const z)
+	struct color
 	{
-		return tuple(x, y, z, 0);
-	}
+		float red; float green; float blue;
+
+		friend color operator+(const color& c1, const color& c2);
+		friend color operator-(const color& c1, const color& c2);
+		friend bool operator==(const color& lhs, const color& rhs);
+		friend bool operator!=(const color &lhs, const color &rhs);
+		friend color operator*(const color &lhs, const float rhs);
+
+		/*
+		 * Hadamard product
+		 */
+		friend color operator*(const color &lhs, const color &rhs);
+	};
 
 	template <typename T>
 	class M_4x4
