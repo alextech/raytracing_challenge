@@ -117,10 +117,12 @@ namespace rt_math
 				T r4_c3,
 				T r4_c4
 			);
+			explicit M_4x4(const std::vector<T>& values);
+			explicit M_4x4(std::vector<T>&& values);
 
 			T at(const int row, const int column) const;
 
-			friend bool operator==(const M_4x4 &lhs, const M_4x4 &rhs)
+			friend bool operator==(const M_4x4& lhs, const M_4x4& rhs)
 			{
 				return std::equal(
 					lhs.matrix_.begin(), lhs.matrix_.end(),
@@ -133,6 +135,7 @@ namespace rt_math
 			}
 
 		private:
+			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
 			std::vector<T> matrix_;
 	};
 
@@ -149,6 +152,7 @@ namespace rt_math
 
 			T at(const int row, const int column) const;
 		private:
+			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
 			std::vector<T> matrix_;
 	};
 
@@ -169,7 +173,12 @@ namespace rt_math
 			);
 
 			T at(const int row, const int column) const;
+
 		private:
+			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
 			std::vector<T> matrix_;
 	};
 }
+
+template <typename T>
+rt_math::M_4x4<T> operator*(const rt_math::M_4x4<T>& lhs, const rt_math::M_4x4<T>& rhs);

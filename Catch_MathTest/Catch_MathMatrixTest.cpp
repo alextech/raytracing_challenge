@@ -104,3 +104,30 @@ SCENARIO("Matrix equality with different matrices", "[matrix]")
 		REQUIRE(A != B);
 	}
 }
+
+SCENARIO("Multiplying two matrices", "[matrix]")
+{
+	GIVEN("Matrix A and matrix B")
+	{
+		M_4x4<int> A = M_4x4<int>(
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 8, 7, 6,
+			5, 4, 3, 2
+			);
+
+		M_4x4<int> B = M_4x4<int>(
+			-2, 1, 2, 3,
+			3,  2, 1, -1,
+			4,  3, 6, 5,
+			1,  2, 7, 8
+			);
+
+		REQUIRE(A * B == M_4x4<int>(
+			20, 22,  50,  48,
+			44, 54, 114, 108,
+			40, 58, 110, 102,
+			16, 26,  46,  42
+		));
+	}
+}
