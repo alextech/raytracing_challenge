@@ -82,3 +82,25 @@ SCENARIO("Matrix equality with identical matrices", "[matrix]")
 		REQUIRE(A == B);
 	}
 }
+
+SCENARIO("Matrix equality with different matrices", "[matrix]")
+{
+	GIVEN("Matrix A and matrix B")
+	{
+		M_4x4<int> A = M_4x4<int>(
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 8, 7, 6,
+			5, 4, 3, 2
+			);
+
+		M_4x4<int> B = M_4x4<int>(
+			2, 3, 4, 5,
+			6, 7, 8, 9,
+			8, 7, 6, 5,
+			4, 3, 2, 1
+			);
+
+		REQUIRE(A != B);
+	}
+}
