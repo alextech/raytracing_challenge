@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Matricies.cpp" />
+    <ClCompile Include="Matrices.cpp" />
     <ClCompile Include="Touples.cpp" />
   </ItemGroup>
   <ItemGroup>

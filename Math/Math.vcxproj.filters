@@ -18,7 +18,7 @@
     <ClCompile Include="Touples.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Matricies.cpp">
+    <ClCompile Include="Matrices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
