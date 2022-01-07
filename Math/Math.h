@@ -27,16 +27,25 @@ namespace rt_math
 		float x; float y; float z; float w;
 
 		[[nodiscard]]
-		bool IsPoint() const;
+		bool IsPoint() const
+		{
+			return w == 1.0f;
+		}
 
 		[[nodiscard]]
-		bool IsVector() const;
+		bool IsVector() const
+		{
+			return w == 0.0f;
+		}
 
 		[[nodiscard]]
-		float magnitude() const;
+		float magnitude() const
+		{
+			// since C++11 (and C++17 adds 3 parameters)
+			// std function for square root of sum of squares
+			return std::hypot(this->x, this->y, this->z);
+		}
 
-		friend bool operator==(const tuple lhs, const tuple &rhs);
-		friend bool operator!=(const tuple &lhs, const tuple &rhs);
 		/*
 		 * This is a good example of why class inheritance for Point and Vector types do not make sense.
 		 *
@@ -45,76 +54,106 @@ namespace rt_math
 		 * Adding w=1 (point) to a w=1 (point) produces w=2, undefined here,
 		 *   which matches the fact that mathematically cannot add point and a point.
 		 */
-		friend tuple operator+(const tuple &lhs, const tuple &rhs);
-		friend tuple operator-(const tuple &lhs, const tuple &rhs);
-		friend tuple operator-(const tuple &rhs);
-		friend tuple operator*(const tuple &lhs, float const a);
-		friend tuple operator/(const tuple &lhs, float const a);
-		friend tuple normalize(const tuple &v);
-		friend float dot(const tuple &a, const tuple &b);
-		friend tuple cross(const tuple &a, const tuple &b);
+		tuple operator+(const tuple &rhs) const
+		{
+			return tuple(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
+		}
+
+		/*
+		 * Subtracting w=1 (point) - w=1 (point) gives w=0 (vector), as expected mathematically,
+		 *   giving __direction__ between two points.
+		 *
+		 * Useful for chapter 6 - finding vector pointing to light source.
+		 */
+		tuple operator-(const tuple &rhs) const
+		{
+			return tuple(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
+		}
+
+		/*
+		 * Negating vector. Useful for chapter 6 - shading.
+		 */
+		tuple operator-() const
+		{
+			return tuple(0 - x, 0 - y, 0 - z, 0 - w);
+		}
+
+		tuple operator*(float const a) const
+		{
+			return tuple(x * a, y * a, z * a, w * a);
+		}
+		tuple operator/(float const a) const
+		{
+			return tuple(x / a, y / a, z / a, w / a);
+		}
 	};
 
-	float dot(const tuple& a, const tuple& b);
-	tuple cross(const tuple& a, const tuple& b);
+	bool operator==(const tuple &lhs, const tuple &rhs);
+	bool operator!=(const tuple &lhs, const tuple &rhs);
+
+	tuple normalize(const tuple &v);
+	float dot(const tuple &a, const tuple &b);
+	tuple cross(const tuple &a, const tuple &b);
 
 	tuple inline vector(const float x, const float y, const float z)
 	{
-		// return tuple(x, y, z, 1);
-
-		return tuple{
-			.x = x,
-			.y = y,
-			.z = z,
-			.w = 0
-		};
+		return tuple(x, y, z, 0);
 	}
 	tuple inline point(const float x, const float y, const float z)
 	{
-		return tuple{
-			.x = x,
-			.y = y,
-			.z = z,
-			.w = 1
-		};
+		return tuple(x, y, z, 1);
 	}
 
 	struct color
 	{
 		float red; float green; float blue;
 
-		friend color operator+(const color& c1, const color& c2);
-		friend color operator-(const color& c1, const color& c2);
-		friend bool operator==(const color& lhs, const color& rhs);
-		friend bool operator!=(const color &lhs, const color &rhs);
-		friend color operator*(const color &lhs, const float rhs);
+		color operator+(const color &rhs) const
+		{
+			return color(red + rhs.red, green + rhs.green, blue + rhs.blue);
+		}
+		color operator-(const color &rhs) const
+		{
+			return color(red - rhs.red, green - rhs.green, blue - rhs.blue);
+		}
+
+		color operator*(const float rhs) const
+		{
+			return color(red * rhs, green * rhs, blue * rhs);
+		}
 
 		/*
 		 * Hadamard product
 		 */
-		friend color operator*(const color &lhs, const color &rhs);
+		color operator*(const color &rhs) const
+		{
+			return color(red * rhs.red, green * rhs.green, blue * rhs.blue);
+		}
 	};
+
+	bool operator==(const color& lhs, const color& rhs);
+	bool operator!=(const color& lhs, const color& rhs);
 
 	class M_4x4
 	{
 		public:
 			M_4x4(
-				const float r1_c1,
-				const float r1_c2,
-				const float r1_c3,
-				const float r1_c4,
-				const float r2_c1,
-				const float r2_c2,
-				const float r2_c3,
-				const float r2_c4,
-				const float r3_c1,
-				const float r3_c2,
-				const float r3_c3,
-				const float r3_c4,
-				const float r4_c1,
-				const float r4_c2,
-				const float r4_c3,
-				const float r4_c4
+				 float r1_c1,
+				 float r1_c2,
+				 float r1_c3,
+				 float r1_c4,
+				 float r2_c1,
+				 float r2_c2,
+				 float r2_c3,
+				 float r2_c4,
+				 float r3_c1,
+				 float r3_c2,
+				 float r3_c3,
+				 float r3_c4,
+				 float r4_c1,
+				 float r4_c2,
+				 float r4_c3,
+				 float r4_c4
 			);
 
 			M_4x4(std::vector<float> &&values) : matrix_(std::move(values)) {}
@@ -123,7 +162,7 @@ namespace rt_math
 			M_4x4 operator*(const rt_math::M_4x4 &rhs) const;
 
 			[[nodiscard]]
-			float at(const int row, const int column) const;
+			float at(int row, int column) const;
 
 			friend bool operator==(const M_4x4 &lhs, const M_4x4 &rhs);
 
@@ -138,14 +177,14 @@ namespace rt_math
 	{
 		public:
 			M_2x2(
-				const float r1_c1,
-				const float r1_c2,
-				const float r2_c1,
-				const float r2_c2
+				 float r1_c1,
+				 float r1_c2,
+				 float r2_c1,
+				 float r2_c2
 			);
 
 			[[nodiscard]]
-			float at(const int row, const int column) const;
+			float at(int row, int column) const;
 		private:
 			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
 			std::vector<float> matrix_;
@@ -155,19 +194,19 @@ namespace rt_math
 	{
 		public:
 			M_3x3(
-				const float r1_c1,
-				const float r1_c2,
-				const float r1_c3,
-				const float r2_c1,
-				const float r2_c2,
-				const float r2_c3,
-				const float r3_c1,
-				const float r3_c2,
-				const float r3_c3
+				 float r1_c1,
+				 float r1_c2,
+				 float r1_c3,
+				 float r2_c1,
+				 float r2_c2,
+				 float r2_c3,
+				 float r3_c1,
+				 float r3_c2,
+				 float r3_c3
 			);
 
 			[[nodiscard]]
-			float at(const int row, const int column) const;
+			float at(int row, int column) const;
 
 		private:
 			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160

@@ -11,7 +11,12 @@ SCENARIO("A tuple with w=1.0 is a point", "[coordinates]") {
 
     GIVEN("a tuple") {
 
-        tuple *a = new tuple(4.3f, -4.2f, 3.1f, 1.0f);
+        tuple *a = new tuple {
+        	.x = 4.3f,
+        	.y = -4.2f,
+        	.z = 3.1f,
+        	.w = 1.0f
+        };
 
         THEN("Can access point coordinates")
         {
@@ -62,17 +67,17 @@ SCENARIO("vector() creates tuples with w = 0", "[coordinates]")
 }
 
 /*
- * In geometry, vector + point = vector; vector + vector = vector; point + point = doesnt make sense
+ * In geometry, vector + point = vector; vector + vector = vector; point + point = doesn't make sense
  */
 SCENARIO("Adding two tuples", "[coordinates]")
 {
 	GIVEN("a1 <- tuple(3, -2, 5, 1)")
 	{
-		const tuple a1 = tuple(3, -2, 5, 1);
+		constexpr tuple a1 = tuple(3, -2, 5, 1);
 
 		AND_GIVEN("a2 <- tuple(-2, 3, 1, 0)")
 		{
-			const tuple a2 = tuple(-2, 3, 1, 0);
+			constexpr tuple a2 = tuple(-2, 3, 1, 0);
 
 			THEN("a1 + a2 = tuple(1, 1, 6, 1)")
 			{
@@ -162,7 +167,7 @@ SCENARIO("Negating a tuple", "[coordinates]")
 {
 	GIVEN("a <- tuple(1, -2, 3, -4)")
 	{
-		const tuple a = tuple(1, -2, 3, -4);
+		constexpr tuple a = tuple(1, -2, 3, -4);
 
 		REQUIRE(-a == tuple(-1, 2, -3, 4));
 	}
@@ -172,7 +177,7 @@ SCENARIO("Multiplying a tuple by a scalar", "[coordinates]")
 {
 	GIVEN("a <- tuple(1, -2, 3, -4)")
 	{
-		const tuple a = tuple(1, -2, 3, -4);
+		constexpr tuple a = tuple(1, -2, 3, -4);
 
 		REQUIRE(a * 3.5 == tuple(3.5, -7, 10.5, -14));
 	}
@@ -182,7 +187,7 @@ SCENARIO("Multiplying a tuple by a fraction", "[coordinates]")
 {
 	GIVEN("a <- tuple(1, -2, 3, -4)")
 	{
-		const tuple a = tuple(1, -2, 3, -4);
+		constexpr tuple a = tuple(1, -2, 3, -4);
 
 		REQUIRE(a * 0.5 == tuple(0.5, -1, 1.5, -2));
 	}
@@ -192,7 +197,7 @@ SCENARIO("Dividing a tuple by a scalar", "[coordinates]")
 {
 	GIVEN("a <- tuple(1, -2, 3, -4)")
 	{
-		const tuple a = tuple(1, -2, 3, -4);
+		constexpr tuple a = tuple(1, -2, 3, -4);
 
 		REQUIRE(a / 2 == tuple(0.5, -1, 1.5, -2));
 	}
@@ -202,7 +207,7 @@ SCENARIO("Computing the magnitude of a vector(0, 1, 0)", "[coordinates]")
 {
 	GIVEN("v <- vector(0, 1, 0)")
 	{
-		tuple v = vector(0, 1, 0);
+		const tuple v = vector(0, 1, 0);
 
 		REQUIRE(eq_f(v.magnitude(), 1));
 	}
@@ -211,7 +216,7 @@ SCENARIO("Computing the magnitude of a vector(0, 0, 1)", "[coordinates]")
 {
 	GIVEN("v <- vector(0, 0, 1)")
 	{
-		tuple v = vector(0, 0, 1);
+		const tuple v = vector(0, 0, 1);
 
 		REQUIRE(eq_f(v.magnitude(), 1));
 	}
@@ -220,7 +225,7 @@ SCENARIO("Computing the magnitude of a vector(1, 2, 3)", "[coordinates]")
 {
 	GIVEN("v <- vector(1, 2, 3)")
 	{
-		tuple v = vector(1, 2, 3);
+		const tuple v = vector(1, 2, 3);
 
 		REQUIRE(eq_f(v.magnitude(), std::sqrt(14.0f)));
 	}
@@ -229,7 +234,7 @@ SCENARIO("Computing the magnitude of a vector(-1, -2, -3)", "[coordinates]")
 {
 	GIVEN("v <- vector(-1, -2, -3)")
 	{
-		tuple v = vector(-1, -2, -3);
+		const tuple v = vector(-1, -2, -3);
 
 		REQUIRE(eq_f(v.magnitude(), std::sqrt(14.0f)));
 	}
