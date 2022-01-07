@@ -95,90 +95,82 @@ namespace rt_math
 		friend color operator*(const color &lhs, const color &rhs);
 	};
 
-	template <typename T>
 	class M_4x4
 	{
 		public:
 			M_4x4(
-				T r1_c1,
-				T r1_c2,
-				T r1_c3,
-				T r1_c4,
-				T r2_c1,
-				T r2_c2,
-				T r2_c3,
-				T r2_c4,
-				T r3_c1,
-				T r3_c2,
-				T r3_c3,
-				T r3_c4,
-				T r4_c1,
-				T r4_c2,
-				T r4_c3,
-				T r4_c4
+				const float r1_c1,
+				const float r1_c2,
+				const float r1_c3,
+				const float r1_c4,
+				const float r2_c1,
+				const float r2_c2,
+				const float r2_c3,
+				const float r2_c4,
+				const float r3_c1,
+				const float r3_c2,
+				const float r3_c3,
+				const float r3_c4,
+				const float r4_c1,
+				const float r4_c2,
+				const float r4_c3,
+				const float r4_c4
 			);
-			explicit M_4x4(const std::vector<T>& values);
-			explicit M_4x4(std::vector<T>&& values);
 
-			T at(const int row, const int column) const;
+			M_4x4(std::vector<float> &&values) : matrix_(std::move(values)) {}
+			M_4x4(const std::vector<float> &values) {}
 
-			friend bool operator==(const M_4x4& lhs, const M_4x4& rhs)
-			{
-				return std::equal(
-					lhs.matrix_.begin(), lhs.matrix_.end(),
-					rhs.matrix_.begin(),
-					[](const T& left, const T& right)
-					{
-						return eq(left, right);
-					}
-				);
-			}
+			M_4x4 operator*(const rt_math::M_4x4 &rhs) const;
+
+			[[nodiscard]]
+			float at(const int row, const int column) const;
+
+			friend bool operator==(const M_4x4 &lhs, const M_4x4 &rhs);
 
 		private:
 			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
-			std::vector<T> matrix_;
+			std::vector<float> matrix_;
 	};
 
-	template <typename T>
+	bool operator==(const M_4x4 &lhs, const M_4x4 &rhs);
+
 	class M_2x2
 	{
 		public:
 			M_2x2(
-				const T r1_c1,
-				const T r1_c2,
-				const T r2_c1,
-				const T r2_c2
+				const float r1_c1,
+				const float r1_c2,
+				const float r2_c1,
+				const float r2_c2
 			);
 
-			T at(const int row, const int column) const;
+			[[nodiscard]]
+			float at(const int row, const int column) const;
 		private:
 			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
-			std::vector<T> matrix_;
+			std::vector<float> matrix_;
 	};
 
-	template <typename T>
 	class M_3x3
 	{
 		public:
 			M_3x3(
-				const T r1_c1,
-				const T r1_c2,
-				const T r1_c3,
-				const T r2_c1,
-				const T r2_c2,
-				const T r2_c3,
-				const T r3_c1,
-				const T r3_c2,
-				const T r3_c3
+				const float r1_c1,
+				const float r1_c2,
+				const float r1_c3,
+				const float r2_c1,
+				const float r2_c2,
+				const float r2_c3,
+				const float r3_c1,
+				const float r3_c2,
+				const float r3_c3
 			);
 
-			T at(const int row, const int column) const;
+			[[nodiscard]]
+			float at(const int row, const int column) const;
 
 		private:
 			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
-			std::vector<T> matrix_;
+			std::vector<float> matrix_;
 	};
 }
-
-template <typename T>
-rt_math::M_4x4<T> operator*(const rt_math::M_4x4<T>& lhs, const rt_math::M_4x4<T>& rhs);
