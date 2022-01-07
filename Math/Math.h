@@ -1,4 +1,5 @@
 #pragma once
+#include <cassert>
 #include <cmath>
 #include <vector>
 
@@ -88,12 +89,18 @@ namespace rt_math
 		}
 	};
 
-	bool operator==(const tuple &lhs, const tuple &rhs);
-	bool operator!=(const tuple &lhs, const tuple &rhs);
+	inline bool operator==(const tuple &lhs, const tuple &rhs)
+	{
+		return eq_f(lhs.x, rhs.x)
+			&& eq_f(lhs.y, rhs.y)
+			&& eq_f(lhs.z, rhs.z)
+			&& eq_f(lhs.w, rhs.w);
+	}
 
-	tuple normalize(const tuple &v);
-	float dot(const tuple &a, const tuple &b);
-	tuple cross(const tuple &a, const tuple &b);
+	inline bool operator!=(const tuple &lhs, const tuple &rhs)
+	{
+		return !(lhs == rhs);
+	}
 
 	tuple inline vector(const float x, const float y, const float z)
 	{
@@ -102,6 +109,36 @@ namespace rt_math
 	tuple inline point(const float x, const float y, const float z)
 	{
 		return tuple(x, y, z, 1);
+	}
+
+	inline float dot(const tuple& a, const tuple& b)
+	{
+		assert(a.IsVector() && b.IsVector());
+
+		return a.x * b.x + a.y * b.y + a.z * b.z;
+	}
+
+	inline tuple cross(const tuple& a, const tuple& b)
+	{
+		assert(a.IsVector() && b.IsVector());
+
+		return vector(
+			a.y * b.z - a.z * b.y,
+			a.z * b.x - a.x * b.z,
+			a.x * b.y - a.y * b.x
+		);
+	}
+
+	inline tuple normalize(const tuple& v)
+	{
+		assert(v.IsVector());
+
+		const float magnitude = v.magnitude();
+		return vector(
+			v.x / magnitude,
+			v.y / magnitude,
+			v.z / magnitude
+		);
 	}
 
 	struct color
@@ -131,8 +168,16 @@ namespace rt_math
 		}
 	};
 
-	bool operator==(const color& lhs, const color& rhs);
-	bool operator!=(const color& lhs, const color& rhs);
+	inline bool operator==(const color& lhs, const color& rhs)
+	{
+		return eq_f(lhs.red, rhs.red)
+			&& eq_f(lhs.green, rhs.green)
+			&& eq_f(lhs.blue, rhs.blue);
+	} 
+	inline bool operator!=(const color& lhs, const color& rhs)
+	{
+		return !(lhs == rhs);
+	}
 
 	class M_4x4
 	{
