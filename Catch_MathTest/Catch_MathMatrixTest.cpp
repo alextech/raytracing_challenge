@@ -130,3 +130,48 @@ SCENARIO("Multiplying two matrices", "[matrix]")
 		});
 	}
 }
+
+SCENARIO("A matrix multiplied by a tuple", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+		const Matrix A = Matrix<4>{
+			1, 2, 3, 4,
+			2, 4, 4, 2,
+			8, 6, 4, 1,
+			0, 0, 0, 1
+		};
+
+		AND_GIVEN("b <- tuple(1, 2, 3, 1)")
+		{
+			constexpr tuple b = tuple(1, 2, 3, 1);
+
+			REQUIRE(A * b == tuple(18, 24, 33, 1));
+		}
+    }
+}
+
+SCENARIO("Multiplying a matrix by identity matrix", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+		const Matrix A = Matrix<4>{
+			0, 1,  2,  4,
+			1, 2,  4,  8,
+			2, 4,  8,  6,
+			4, 8, 16, 32
+		};
+
+		REQUIRE(A * Matrix<4>::identity_matrix() == A);
+    }
+}
+
+SCENARIO("Multiplying the identity matrix by a tuple", "[matrix]")
+{
+    GIVEN("a <- tuple(1, 2, 3, 4)")
+    {
+		constexpr tuple a = tuple(1, 2, 3, 4);
+
+		REQUIRE(Matrix<4>::identity_matrix() * a == a);
+    }
+}

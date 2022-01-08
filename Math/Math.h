@@ -199,6 +199,23 @@ namespace rt_math
             Matrix(std::array<float, N*N> &&values) : matrix_(std::move(values)) {}
             Matrix(const std::array<float, N*N> &values) : matrix_(std::move(values)) {}
 
+            /*
+             * Could optionally generalize into hardcoded versions of identity matrices
+             */
+            static Matrix identity_matrix()
+            {
+                std::array<float, N * N> tmpM = {};
+                for (size_t row = 0; row < N; ++row)
+                {
+                    for (size_t column = 0; column < N; ++column)
+                    {
+                        tmpM[row * N + column] = (row == column ? 1.0f : 0.0f);
+                    }
+                }
+
+                return Matrix<N>(tmpM);
+            }
+
             [[nodiscard]]
             float at(const size_t row, const size_t column) const
             {
@@ -226,6 +243,22 @@ namespace rt_math
                 }
 
                 return Matrix<N>(tmpM);
+            }
+
+            /*
+             * Treating tuple as a single COLUMN matrix
+             */
+            tuple operator*(const tuple &rhs) const
+            {
+                static_assert(N == 4,
+                    "Our tuples are all size 4. Can only multiply 4x4 matrices.");
+
+                return tuple{
+                    .x = matrix_[0] * rhs.x + matrix_[1] * rhs.y + matrix_[2] * rhs.z + matrix_[3] * rhs.w,
+                    .y = matrix_[4] * rhs.x + matrix_[5] * rhs.y + matrix_[6] * rhs.z + matrix_[7] * rhs.w,
+                    .z = matrix_[8] * rhs.x + matrix_[9] * rhs.y + matrix_[10] * rhs.z + matrix_[11] * rhs.w,
+                    .w = matrix_[12] * rhs.x + matrix_[13] * rhs.y + matrix_[14] * rhs.z + matrix_[15] * rhs.w,
+                };
             }
 
             template <size_t Nn>
