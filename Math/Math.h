@@ -289,4 +289,23 @@ inline Matrix<4> identity_matrix = Matrix<4> {
     0, 0, 0, 1
 };
 
+/*
+ * Could be neat if did not have to do multiplication by identity matrix,
+ * just check Matrix.IsIdentity flag that could be set during initialization
+ */
+template <size_t N>
+Matrix<N> transpose(Matrix<N> matrix)
+{
+    std::array<float, N * N> tmpM = {};
+    for (size_t row = 0; row < N; ++row)
+    {
+        for (size_t column = 0; column < N; ++column)
+        {
+            tmpM[column * N + row] = matrix.at(row, column);
+        }
+    }
+
+    return Matrix<N>(tmpM);
+}
+
 }

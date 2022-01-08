@@ -175,3 +175,32 @@ SCENARIO("Multiplying the identity matrix by a tuple", "[matrix]")
 		REQUIRE(rt_math::identity_matrix * a == a);
     }
 }
+
+SCENARIO("Transposing a matrix", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+        const Matrix A = Matrix<4> {
+			0, 9, 3, 0,
+			9, 8, 0, 8,
+			1, 8, 5, 3,
+			0, 0, 5, 8
+        };
+
+		REQUIRE(rt_math::transpose(A) == Matrix<4> {
+			0, 9, 1, 0,
+			9, 8, 8, 0,
+			3, 0, 5, 5,
+			0, 8, 3, 8
+		});
+    }
+}
+
+SCENARIO("Transposing the identity matrix", "[matrix]")
+{
+    GIVEN("A <- transpose(identity_matrix)")
+    {
+		const Matrix A = transpose(identity_matrix);
+        REQUIRE(A == identity_matrix);
+    }
+}
