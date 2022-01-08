@@ -224,6 +224,9 @@ public:
         return matrix_[index];
     }
 
+    [[nodiscard]]
+    float determinant() const;
+
     Matrix operator*(const Matrix &rhs) const
     {
         std::array<float, N*N> tmpM = {};
@@ -268,6 +271,12 @@ public:
 private:
     std::array<float, N*N> matrix_ = {};
 };
+
+template < >
+inline float Matrix<2>::determinant() const
+{
+    return matrix_[0] * matrix_[3] - matrix_[1] * matrix_[2];
+}
 
 template <size_t Nn>
 bool operator==(const Matrix<Nn> &lhs, const Matrix<Nn> &rhs)

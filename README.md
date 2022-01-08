@@ -12,7 +12,16 @@ To run tests:
 Design Decisions
 ================
 
-Some design decisions are not the only way to do this. Conflicting ideas exist. Worth trying:
+Some design decisions are not the only way to do this. Conflicting ideas exist. 
+
+* Whether function is a class member or not is decided on whether it can be said to be 
+  a property of entity, or external action on it. Eg. there is a matrix, and we transpose _it_.
+  so it is implemented as _transpose(Matrix).
+  But, determinant is a thing it _has_, so implemented as M.determinant().
+  Potentially feels inconsistent.
+
+Worth trying:
+------------
 
 * Arithmetic operations to mutate tuples themselves.
   Currently, operators always return new structs. Follows functional immutability.

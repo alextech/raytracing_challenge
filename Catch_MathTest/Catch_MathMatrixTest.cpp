@@ -204,3 +204,16 @@ SCENARIO("Transposing the identity matrix", "[matrix]")
         REQUIRE(A == identity_matrix);
     }
 }
+
+SCENARIO("Calculating the determinant of a 2x2 matrix", "[matrix]")
+{
+    GIVEN("2x2 Matrix A")
+    {
+        const Matrix A = Matrix<2>{
+			1, 5,
+			-3, 2
+        };
+
+		REQUIRE(A.determinant() == 17.0f);
+    }
+}
