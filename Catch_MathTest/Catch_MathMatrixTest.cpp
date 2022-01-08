@@ -162,7 +162,7 @@ SCENARIO("Multiplying a matrix by identity matrix", "[matrix]")
 			4, 8, 16, 32
 		};
 
-		REQUIRE(A * Matrix<4>::identity_matrix() == A);
+		REQUIRE(A * rt_math::identity_matrix == A);
     }
 }
 
@@ -172,6 +172,6 @@ SCENARIO("Multiplying the identity matrix by a tuple", "[matrix]")
     {
 		constexpr tuple a = tuple(1, 2, 3, 4);
 
-		REQUIRE(Matrix<4>::identity_matrix() * a == a);
+		REQUIRE(rt_math::identity_matrix * a == a);
     }
 }

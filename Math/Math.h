@@ -282,4 +282,11 @@ bool operator==(const Matrix<Nn> &lhs, const Matrix<Nn> &rhs)
     );
 }
 
+inline Matrix<4> identity_matrix = Matrix<4> {
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+};
+
 }
