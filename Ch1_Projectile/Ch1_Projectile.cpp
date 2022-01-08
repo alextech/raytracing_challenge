@@ -35,8 +35,8 @@ int main()
 #endif
 
         canvas->write_pixel(
-            static_cast<unsigned int>(round(projectile->position.x)),
-            height - static_cast<unsigned int>(round(projectile->position.y)),
+            static_cast<unsigned int>(std::round(projectile->position.x)),
+            height - static_cast<unsigned int>(std::round(projectile->position.y)),
             rt_math::color(1, 0, 0)
         );
 
