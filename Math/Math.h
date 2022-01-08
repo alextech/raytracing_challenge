@@ -2,6 +2,8 @@
 #include <cassert>
 #include <cmath>
 #include <vector>
+#include <array>
+#include <initializer_list>
 
 namespace rt_math
 {
@@ -111,14 +113,14 @@ namespace rt_math
 		return tuple(x, y, z, 1);
 	}
 
-	inline float dot(const tuple& a, const tuple& b)
+	inline float dot(const tuple &a, const tuple &b)
 	{
 		assert(a.IsVector() && b.IsVector());
 
 		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
 
-	inline tuple cross(const tuple& a, const tuple& b)
+	inline tuple cross(const tuple &a, const tuple &b)
 	{
 		assert(a.IsVector() && b.IsVector());
 
@@ -129,7 +131,7 @@ namespace rt_math
 		);
 	}
 
-	inline tuple normalize(const tuple& v)
+	inline tuple normalize(const tuple &v)
 	{
 		assert(v.IsVector());
 
@@ -168,93 +170,81 @@ namespace rt_math
 		}
 	};
 
-	inline bool operator==(const color& lhs, const color& rhs)
+	inline bool operator==(const color &lhs, const color &rhs)
 	{
 		return eq_f(lhs.red, rhs.red)
 			&& eq_f(lhs.green, rhs.green)
 			&& eq_f(lhs.blue, rhs.blue);
 	} 
-	inline bool operator!=(const color& lhs, const color& rhs)
+	inline bool operator!=(const color &lhs, const color &rhs)
 	{
 		return !(lhs == rhs);
 	}
 
-	class M_4x4
+	template <size_t N>
+	class Matrix
 	{
 		public:
-			M_4x4(
-				 float r1_c1,
-				 float r1_c2,
-				 float r1_c3,
-				 float r1_c4,
-				 float r2_c1,
-				 float r2_c2,
-				 float r2_c3,
-				 float r2_c4,
-				 float r3_c1,
-				 float r3_c2,
-				 float r3_c3,
-				 float r3_c4,
-				 float r4_c1,
-				 float r4_c2,
-				 float r4_c3,
-				 float r4_c4
-			);
+			Matrix(const std::initializer_list<float> args)
+			{
+				assert(args.size() == N * N);
 
-			M_4x4(std::vector<float> &&values) : matrix_(std::move(values)) {}
-			M_4x4(const std::vector<float> &values) {}
-
-			M_4x4 operator*(const rt_math::M_4x4 &rhs) const;
+				int i = 0;
+				for (float cell : args)
+				{
+					matrix_[i] = cell;
+					i++;
+				}
+			}
+			Matrix(std::array<float, N*N> &&values) : matrix_(std::move(values)) {}
+			Matrix(const std::array<float, N*N> &values) : matrix_(std::move(values)) {}
 
 			[[nodiscard]]
-			float at(int row, int column) const;
+			float at(const size_t row, const size_t column) const
+			{
+				const size_t index = row * N + column;
+				return matrix_[index];
+			}
 
-			friend bool operator==(const M_4x4 &lhs, const M_4x4 &rhs);
+			Matrix operator*(const Matrix &rhs) const
+			{
+				std::array<float, N*N> tmpM = {};
+				size_t i = 0;
+				for (size_t row = 0; row < N; ++row)
+				{
+					for (size_t column = 0; column < N; ++column)
+					{
+						float sum = 0;
+						for (size_t columnIndex = 0; columnIndex < N; ++columnIndex)
+						{
+							sum += at(row, columnIndex) * rhs.at(columnIndex, column);
+						}
+
+						tmpM[i] = sum;
+						i++;
+					}
+				}
+
+				return Matrix<N>(tmpM);
+			}
+
+			template <size_t Nn>
+			friend bool operator==(const Matrix<Nn> &lhs, const Matrix<Nn> &rhs);
 
 		private:
-			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
-			std::vector<float> matrix_;
+			std::array<float, N*N> matrix_ = {};
 	};
 
-	bool operator==(const M_4x4 &lhs, const M_4x4 &rhs);
-
-	class M_2x2
+	template <size_t Nn>
+	bool operator==(const Matrix<Nn> &lhs, const Matrix<Nn> &rhs)
 	{
-		public:
-			M_2x2(
-				 float r1_c1,
-				 float r1_c2,
-				 float r2_c1,
-				 float r2_c2
-			);
-
-			[[nodiscard]]
-			float at(int row, int column) const;
-		private:
-			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
-			std::vector<float> matrix_;
-	};
-
-	class M_3x3
-	{
-		public:
-			M_3x3(
-				 float r1_c1,
-				 float r1_c2,
-				 float r1_c3,
-				 float r2_c1,
-				 float r2_c2,
-				 float r2_c3,
-				 float r3_c1,
-				 float r3_c2,
-				 float r3_c3
-			);
-
-			[[nodiscard]]
-			float at(int row, int column) const;
-
-		private:
-			// consider https://docs.microsoft.com/en-us/cpp/standard-library/array-class-stl?view=msvc-160
-			std::vector<float> matrix_;
-	};
+		return std::equal(
+			lhs.matrix_.begin(), lhs.matrix_.end(),
+			rhs.matrix_.begin(),
+			[](const float& left, const float& right)
+			{
+				return rt_math::eq_f(left, right);
+			}
+		);
+	}
 }
