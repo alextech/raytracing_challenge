@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include <array>
+#include <stack>
 #include <initializer_list>
 
 namespace rt_math
@@ -226,6 +227,43 @@ public:
 
     [[nodiscard]]
     float determinant() const;
+
+    [[nodiscard]]
+    Matrix<N-1> submatrix(unsigned int row, unsigned int column) const
+    {
+        std::array<float, (N-1) * (N-1)> tmpM;
+
+        const size_t rowIndexBegin = row * N;
+        const size_t rowIndexEnd = row * N + N;
+
+        size_t newIndex = 0;
+        size_t columnCounter = 0;
+        for (size_t i = 0; i < N * N; ++i)
+        {
+            if (i >= rowIndexBegin && i < rowIndexEnd)
+            {
+                columnCounter = 0;
+                continue;
+            }
+
+            if (columnCounter == N)
+            {
+                columnCounter = 0;
+            }
+
+            if (columnCounter == column)
+            {
+                ++columnCounter;
+                continue;
+            }
+
+            tmpM[newIndex] = matrix_[i];
+            ++newIndex;
+            ++columnCounter;
+        }
+
+        return Matrix<N-1>(tmpM);
+    }
 
     Matrix operator*(const Matrix &rhs) const
     {
