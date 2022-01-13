@@ -229,7 +229,7 @@ public:
     float determinant() const;
 
     [[nodiscard]]
-    Matrix<N-1> submatrix(unsigned int row, unsigned int column) const
+    Matrix<N-1> submatrix(const unsigned int row, const unsigned int column) const
     {
         std::array<float, (N-1) * (N-1)> tmpM;
 
@@ -263,6 +263,12 @@ public:
         }
 
         return Matrix<N-1>(tmpM);
+    }
+
+    [[nodiscard]]
+    float minor(const unsigned int row, const unsigned int column) const
+    {
+        return this->submatrix(row, column).determinant();
     }
 
     Matrix operator*(const Matrix &rhs) const

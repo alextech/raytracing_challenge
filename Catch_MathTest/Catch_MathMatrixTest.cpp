@@ -253,3 +253,23 @@ SCENARIO("A submatrix of a 4x4 matrix is a 3x3 matrix", "[matrix]")
 		});
     }
 }
+
+SCENARIO("Calculating a minor of a 3x3 matrix", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+        const Matrix<3> A = Matrix<3> {
+			3,  5,  0,
+			2, -1, -7,
+			6, -1,  5
+        };
+
+		AND_GIVEN("B <- submatrix(A, 1, 0)")
+		{
+		    const Matrix B = A.submatrix(1, 0);
+
+			REQUIRE(B.determinant() == 25.0f);
+			REQUIRE(A.minor(1, 0) == 25.0f);
+		}
+    }
+}
