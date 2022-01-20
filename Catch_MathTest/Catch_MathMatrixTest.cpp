@@ -273,3 +273,20 @@ SCENARIO("Calculating a minor of a 3x3 matrix", "[matrix]")
 		}
     }
 }
+
+SCENARIO("Calculating a cofactor of a 3x3 matrix", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+        const Matrix<3> A = Matrix<3> {
+			3,  5,  0,
+			2, -1, -7,
+			6, -1,  5
+        };
+
+		REQUIRE(eq_f(A.minor(0, 0), -12.0f));
+		REQUIRE(A.cofactor(0, 0) == -12);
+		REQUIRE(eq_f(A.minor(1, 0), 25.0f));
+		REQUIRE(A.cofactor(1, 0) == -25);
+    }
+}

@@ -271,6 +271,18 @@ public:
         return this->submatrix(row, column).determinant();
     }
 
+    [[nodiscard]]
+    float cofactor(const unsigned int row, const unsigned int column) const
+    {
+        float minor = this->minor(row, column);
+        if ((row + column) % 2 != 0)
+        {
+            minor = -minor;
+        }
+
+        return minor;
+    }
+
     Matrix operator*(const Matrix &rhs) const
     {
         std::array<float, N*N> tmpM = {};
