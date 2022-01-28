@@ -327,3 +327,63 @@ SCENARIO("Calculating the determinant of a 4x4 matrix", "[matrix]")
 		REQUIRE(eq_f(A.determinant(), -4071.0f));
     }
 }
+
+SCENARIO("Testing an invertible matrix for invertibility", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+        const Matrix<4> A = Matrix<4> {
+			6,  4, 4,  4,
+			5,  5, 7,  6,
+			4, -9, 3, -7,
+			9,  1, 7, -6
+        };
+
+		REQUIRE(A.is_invertible());
+    }
+}
+
+SCENARIO("Testing a noninvertible matrix for invertibility", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+        const Matrix<4> A = Matrix<4> {
+			-4,  2, -2, -3,
+			 9,  6,  2,  6,
+			 0, -5,  1, -5,
+			 0,  0,  0,  0
+        };
+
+		REQUIRE_FALSE(A.is_invertible());
+    }
+}
+
+SCENARIO("Calculating the inverse of a matrix")
+{
+    GIVEN("4x4 matrix A")
+    {
+        const Matrix<4> A = Matrix<4> {
+			-5,  2,  6, -8,
+			 1, -5,  1,  8,
+			 7,  7, -6, -7,
+			 1, -3,  7,  4
+        };
+
+		AND_GIVEN("B <- inverse(A)")
+		{
+		    const Matrix<4> B = A.inverse();
+
+			REQUIRE(eq_f(A.determinant(), 532.0f));
+			REQUIRE(eq_f(A.cofactor(2, 3), -160.0f));
+			REQUIRE(eq_f(B.at(3, 2), -160.0f/532.0f));
+			REQUIRE(eq_f(A.cofactor(3, 2), 105.0f));
+			REQUIRE(eq_f(B.at(2, 3), 105.0f/532.0f));
+			REQUIRE(B == Matrix<4> {
+				 0.21805f,  0.45113f,  0.24060f, -0.04511f,
+				-0.80827f, -1.45677f, -0.44361f,  0.52068f,
+				-0.07895f, -0.22368f, -0.05263f,  0.19737f,
+				-0.52256f, -0.81391f, -0.30075f,  0.30639f
+			});
+		}
+    }
+}

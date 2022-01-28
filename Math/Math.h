@@ -283,6 +283,41 @@ public:
         return minor;
     }
 
+    [[nodiscard]]
+    bool is_invertible() const
+    {
+        return this->determinant() != 0.0f;
+    }
+
+    [[nodiscard]]
+    Matrix<N> inverse() const
+    {
+        std::array<float, N*N> tmpCofactors = {};
+
+        size_t i = 0;
+        for (unsigned int row = 0; row < N; ++row)
+        {
+            for (unsigned int column = 0; column < N; ++column)
+            {
+                tmpCofactors[i] = this->cofactor(row, column);
+
+                i++;
+            }
+        }
+
+        Matrix<N> transposed_cofactors = transpose(Matrix<N>(tmpCofactors));
+        float determinant = this->determinant();
+
+        constexpr size_t upper_index = N * N;
+        for (i = 0; i < upper_index; ++i)
+        {
+            transposed_cofactors.matrix_[i] = transposed_cofactors.matrix_[i] / determinant;
+        }
+
+
+        return transposed_cofactors;
+    }
+
     Matrix operator*(const Matrix &rhs) const
     {
         std::array<float, N*N> tmpM = {};
