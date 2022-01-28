@@ -334,6 +334,26 @@ inline float Matrix<2>::determinant() const
     return matrix_[0] * matrix_[3] - matrix_[1] * matrix_[2];
 }
 
+template < >
+inline float Matrix<3>::determinant() const
+{
+    return
+        matrix_[0] * this->cofactor(0, 0) +
+        matrix_[1] * this->cofactor(0, 1) + 
+        matrix_[2] * this->cofactor(0, 2);
+}
+
+template < >
+inline float Matrix<4>::determinant() const
+{
+    return
+        matrix_[0] * this->cofactor(0, 0) +
+        matrix_[1] * this->cofactor(0, 1) + 
+        matrix_[2] * this->cofactor(0, 2) +
+        matrix_[3] * this->cofactor(0, 3);
+}
+
+
 template <size_t Nn>
 bool operator==(const Matrix<Nn> &lhs, const Matrix<Nn> &rhs)
 {

@@ -290,3 +290,40 @@ SCENARIO("Calculating a cofactor of a 3x3 matrix", "[matrix]")
 		REQUIRE(A.cofactor(1, 0) == -25);
     }
 }
+
+
+SCENARIO("Calculating the determinant of a 3x3 matrix", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+        const Matrix<3> A = Matrix<3> {
+			 1, 2,  6,
+			-5, 8, -4,
+			 2, 6,  4
+        };
+
+		REQUIRE(eq_f(A.cofactor(0, 0), 56.0f));
+		REQUIRE(eq_f(A.cofactor(0, 1), 12.0f));
+		REQUIRE(eq_f(A.cofactor(0, 2), -46.0f));
+		REQUIRE(eq_f(A.determinant(), -196.0f));
+    }
+}
+
+SCENARIO("Calculating the determinant of a 4x4 matrix", "[matrix]")
+{
+    GIVEN("Matrix A")
+    {
+        const Matrix<4> A = Matrix<4> {
+			-2, -8,  3,  5,
+			-3,  1,  7,  3,
+			 1,  2, -9,  6,
+			-6,  7,  7, -9
+        };
+
+		REQUIRE(eq_f(A.cofactor(0, 0), 690.0f));
+		REQUIRE(eq_f(A.cofactor(0, 1), 447.0f));
+		REQUIRE(eq_f(A.cofactor(0, 2), 210.0f));
+		REQUIRE(eq_f(A.cofactor(0, 3), 51.f));
+		REQUIRE(eq_f(A.determinant(), -4071.0f));
+    }
+}
