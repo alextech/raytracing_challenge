@@ -387,3 +387,73 @@ SCENARIO("Calculating the inverse of a matrix")
 		}
     }
 }
+
+SCENARIO("Calculating the inverse of another matrix")
+{
+    GIVEN("4x4 matrix A")
+    {
+        const Matrix<4> A = Matrix<4> {
+			 8, -5,  9,  2,
+			 7,  5,  6,  1,
+			-6,  0,  9,  6,
+			-3,  0, -9, -4
+        };
+
+		REQUIRE(A.inverse() == Matrix<4> {
+			-0.15385f, -0.15385f, -0.28205f, -0.53846f,
+			-0.07692f,  0.12308f,  0.02564f,  0.03077f,
+			 0.35897f,  0.35897f,  0.43590f,  0.92308f,
+			-0.69231f, -0.69231f, -0.76923f, -1.92308f
+		});
+    }
+}
+
+SCENARIO("Calculating the inverse of a third matrix")
+{
+    GIVEN("4x4 matrix A")
+    {
+        const Matrix<4> A = Matrix<4> {
+			 9,  3,  0,  9,
+			-5, -2, -6, -3,
+			-4,  9,  6,  4,
+			-7,  6,  6,  2
+        };
+
+		REQUIRE(A.inverse() == Matrix<4> {
+			-0.04074f, -0.07778f,  0.14444f, -0.22222f,
+			-0.07778f,  0.03333f,  0.36667f, -0.33333f,
+			-0.02901f, -0.14630f, -0.10926f,  0.12963f,
+			 0.17778f,  0.06667f, -0.26667f,  0.33333f
+		});
+    }
+}
+
+SCENARIO("Multiplying a product by its inverse")
+{
+    GIVEN("4x4 matrix A")
+    {
+        const Matrix<4> A = Matrix<4> {
+			 3, -9,  7,  3,
+			 3, -8,  2, -9,
+			-4,  4,  4,  1,
+			-6,  5, -1,  1
+        };
+
+		AND_GIVEN("Matrix B")
+		{
+		    const Matrix<4> B = Matrix<4> {
+				8,  2,  2,  2,
+				3, -1,  7,  0,
+				7,  0,  5,  4,
+				6, -2,  0,  5
+		    };
+
+			AND_GIVEN("Product of A and B")
+			{
+			    const Matrix<4> C = A * B;
+
+				REQUIRE(C * B.inverse() == A);
+			}
+		}
+    }
+}
