@@ -358,7 +358,7 @@ SCENARIO("Testing a noninvertible matrix for invertibility", "[matrix]")
     }
 }
 
-SCENARIO("Calculating the inverse of a matrix")
+SCENARIO("Calculating the inverse of a matrix", "[matrix]")
 {
     GIVEN("4x4 matrix A")
     {
@@ -388,7 +388,7 @@ SCENARIO("Calculating the inverse of a matrix")
     }
 }
 
-SCENARIO("Calculating the inverse of another matrix")
+SCENARIO("Calculating the inverse of another matrix", "[matrix]")
 {
     GIVEN("4x4 matrix A")
     {
@@ -408,7 +408,7 @@ SCENARIO("Calculating the inverse of another matrix")
     }
 }
 
-SCENARIO("Calculating the inverse of a third matrix")
+SCENARIO("Calculating the inverse of a third matrix", "[matrix]")
 {
     GIVEN("4x4 matrix A")
     {
@@ -428,7 +428,7 @@ SCENARIO("Calculating the inverse of a third matrix")
     }
 }
 
-SCENARIO("Multiplying a product by its inverse")
+SCENARIO("Multiplying a product by its inverse", "[matrix]")
 {
     GIVEN("4x4 matrix A")
     {
@@ -457,3 +457,5 @@ SCENARIO("Multiplying a product by its inverse")
 		}
     }
 }
+
+

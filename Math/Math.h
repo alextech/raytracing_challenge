@@ -1,7 +1,6 @@
 #pragma once
 #include <cassert>
 #include <cmath>
-#include <vector>
 #include <array>
 #include <stack>
 #include <initializer_list>
@@ -307,6 +306,7 @@ public:
 
         Matrix<N> transposed_cofactors = transpose(Matrix<N>(tmpCofactors));
         float determinant = this->determinant();
+        assert(determinant != 0);
 
         constexpr size_t upper_index = N * N;
         for (i = 0; i < upper_index; ++i)
