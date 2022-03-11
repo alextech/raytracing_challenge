@@ -92,6 +92,7 @@ struct tuple
     }
 };
 
+// typedef tuple point;
 inline bool operator==(const tuple &lhs, const tuple &rhs)
 {
     return eq_f(lhs.x, rhs.x)
@@ -428,4 +429,16 @@ Matrix<N> transpose(Matrix<N> matrix)
     return Matrix<N>(tmpM);
 }
 
+}
+
+
+// ====== GEOMETRIC TRANSFORMATIONS =======
+inline rt_math::Matrix<4> translation(float x, float y, float z)
+{
+    return rt_math::Matrix<4> {
+        1, 0, 0, x,
+        0, 1, 0, y,
+        0, 0, 1, z,
+        0, 0, 0, 1
+    };
 }
