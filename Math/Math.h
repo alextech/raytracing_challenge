@@ -452,3 +452,13 @@ inline rt_math::Matrix<4> scaling(const float x, const float y, const float z)
         0, 0, 0, 1
     };
 }
+
+inline rt_math::Matrix<4> reflection()
+{
+    return rt_math::Matrix<4> {
+        -1, 0, 0, 0,
+         0, 1, 0, 0,
+         0, 0, 1, 0,
+         0, 0, 0, 1
+    };
+}

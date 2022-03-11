@@ -103,3 +103,18 @@ SCENARIO("Multiplying by the inverse of a scaling matrix", "[scaling]")
         }
     }
 }
+
+SCENARIO("Reflection is scaling by a negative value", "[scaling]")
+{
+    GIVEN("transform <- scaling(-1, 1, 1)")
+    {
+        const Matrix<4> transform = reflection();
+
+        AND_GIVEN("p <- point(2, 3, 4)")
+        {
+            const tuple p = point(2, 3, 4);
+
+            REQUIRE(transform * p == point(-2, 3, 4));
+        }
+    }
+}
