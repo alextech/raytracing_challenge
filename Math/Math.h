@@ -462,3 +462,42 @@ inline rt_math::Matrix<4> reflection()
          0, 0, 0, 1
     };
 }
+
+inline rt_math::Matrix<4> rotation_x(const float angle)
+{
+    const float sin = std::sin(angle);
+    const float cos = std::cos(angle);
+
+    return rt_math::Matrix<4> {
+        1, 0,      0, 0,
+        0, cos, -sin, 0,
+        0, sin,  cos, 0,
+        0, 0,      0, 1
+    };
+}
+
+inline rt_math::Matrix<4> rotation_y(const float angle)
+{
+    const float sin = std::sin(angle);
+    const float cos = std::cos(angle);
+
+    return rt_math::Matrix<4> {
+        cos,  0, sin, 0,
+        0,    1,   0, 0,
+        -sin, 0, cos, 0,
+        0,    0,   0, 1
+    };
+}
+
+inline rt_math::Matrix<4> rotation_z(const float angle)
+{
+    const float sin = std::sin(angle);
+    const float cos = std::cos(angle);
+
+    return rt_math::Matrix<4> {
+        cos, -sin, 0, 0,
+        sin,  cos, 0, 0,
+        0,      0, 1, 0,
+        0,      0, 0, 1
+    };
+}
