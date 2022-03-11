@@ -54,4 +54,52 @@ SCENARIO("Translation does not affect vectors", "[translation]")
     }
 }
 
+SCENARIO("A scaling matrix applied to a point", "[scaling]")
+{
+    GIVEN("transform <- scaling(2, 3, 4)")
+    {
+        const Matrix<4> transform = scaling(2, 3, 4);
 
+        AND_GIVEN("p <- point(-4, 6, 8)")
+        {
+            tuple p = point(-4, 6, 8);
+
+            REQUIRE(transform * p == point(-8, 18, 32));
+        }
+    }
+}
+
+SCENARIO("A scaling matrix applied to a vector", "[scaling]")
+{
+    GIVEN("transform <- scaling(2, 3, 4)")
+    {
+        const Matrix<4> transform = scaling(2, 3, 4);
+
+        AND_GIVEN("v <- vector(-4, 6, 8)")
+        {
+            const tuple v = vector(-4, 6, 8);
+
+            REQUIRE(transform * v == vector(-8, 18, 32));
+        }
+    }
+}
+
+SCENARIO("Multiplying by the inverse of a scaling matrix", "[scaling]")
+{
+    GIVEN("transform <- scaling(2, 3, 4)")
+    {
+        const Matrix<4> transform = scaling(2, 3, 4);
+
+        AND_GIVEN("inv <- inverse(transform)")
+        {
+            const Matrix<4> inverse = transform.inverse();
+
+            AND_GIVEN("v <- vector(-4, 6, 8)")
+            {
+                const tuple v = vector(-4, 6, 8);
+
+                REQUIRE(inverse * v == vector(-2, 2, 2));
+            }
+        }
+    }
+}
