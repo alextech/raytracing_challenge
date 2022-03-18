@@ -501,3 +501,13 @@ inline rt_math::Matrix<4> rotation_z(const float angle)
         0,      0, 0, 1
     };
 }
+
+inline rt_math::Matrix<4> shearing(const float xy, const float xz, const float yx, const float yz, const float zx, const float zy)
+{
+    return rt_math::Matrix<4> {
+         1, xy, xz, 0,
+        yx,  1, yz, 0,
+        zx, zy,  1, 0,
+         0,  0,  0,  1
+    };
+}
