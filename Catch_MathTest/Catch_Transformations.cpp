@@ -257,3 +257,43 @@ SCENARIO("A shearing transformation moves z in proportion to y", "[shearing]")
         REQUIRE(transform * p == point(2, 3, 7));
     }
 }
+
+SCENARIO("Individual transformations are applied in sequence", "[all_transformations]")
+{
+    GIVEN("point, rotation_x, scaling, translation")
+    {
+        const tuple p = point(1.0f, 0, 1.0f);
+        const Matrix<4> A = rotation_x(std::numbers::pi_v<float> / 2);
+        const Matrix<4> B = scaling(5.0f, 5.0f, 5.0f);
+        const Matrix<4> C = translation(10.0f, 5.0f, 7.0f);
+
+        tuple p2{};
+        tuple p3{};
+        tuple p4{};
+
+        // WHEN() in catch2 creates separate independent runs.
+
+        p2 = A * p;
+        REQUIRE(p2 == point(1.0f, -1.0f, 0));
+
+        p3 = B * p2;
+        REQUIRE(p3 == point(5.0f, -5.0f, 0));
+
+        p4 = C * p3;
+        REQUIRE(p4 == point(15.0f, 0, 7.0f));
+    }
+}
+
+SCENARIO("Chained transformations must be applied in reverse order", "[all_transformations]")
+{
+    GIVEN("point, rotation_x, scaling, translation")
+    {
+        const tuple p = point(1.0f, 0, 1.0f);
+        const Matrix<4> A = rotation_x(std::numbers::pi_v<float> / 2);
+        const Matrix<4> B = scaling(5.0f, 5.0f, 5.0f);
+        const Matrix<4> C = translation(10.0f, 5.0f, 7.0f);
+
+        const Matrix<4> T = C * B * A;
+        REQUIRE(T * p == point(15.0f, 0, 7.0f));
+    }
+}
