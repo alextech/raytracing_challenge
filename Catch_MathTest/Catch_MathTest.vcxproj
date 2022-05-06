@@ -151,6 +151,7 @@
     <ClCompile Include="Catch_MathCoordinatesTest.cpp" />
     <ClCompile Include="Catch_ColorTest.cpp" />
     <ClCompile Include="Catch_MathMatrixTest.cpp" />
+    <ClCompile Include="Catch_RayTest.cpp" />
     <ClCompile Include="Catch_Transformations.cpp" />
   </ItemGroup>
   <ItemGroup>
