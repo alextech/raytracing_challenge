@@ -33,3 +33,90 @@ SCENARIO("Computing a point from a distance")
         REQUIRE(position(ray, 2.5f) == point(4.5f, 3, 4));
     }
 }
+
+SCENARIO("A ray intersects a sphere at two points")
+{
+    GIVEN("sphere and ray")
+    {
+        const Ray ray = Ray(point(0, 0, -5), vector(0, 0, 1));
+        const Sphere sphere = Sphere();
+
+        WHEN("xs <- intersects(sphere, ray)")
+        {
+            const std::vector<float> xs = sphere.intersects(ray);
+
+            REQUIRE(xs.size() == 2);
+            REQUIRE(xs[0] == 4.0f);
+            REQUIRE(xs[1] == 6.0f);
+        }
+    }
+}
+
+SCENARIO("A ray intersects a sphere at a tangent")
+{
+    GIVEN("sphere and ray")
+    {
+        const Ray ray = Ray(point(0, 1, -5), vector(0, 0, 1));
+        const Sphere sphere = Sphere();
+
+        WHEN("xs <- intersects(sphere, ray)")
+        {
+            const std::vector<float> xs = sphere.intersects(ray);
+            REQUIRE(xs.size() == 2);
+            REQUIRE(xs[0] == 5.0f);
+            REQUIRE(xs[1] == 5.0f);
+        }
+    }
+}
+
+SCENARIO("A ray misses a sphere")
+{
+    GIVEN("sphere and ray")
+    {
+        const Ray ray = Ray(point(0, 2, -5), vector(0, 0, 1));
+        const Sphere sphere = Sphere();
+
+        WHEN("xs <- intersects(sphere, ray)")
+        {
+            const std::vector<float> xs = sphere.intersects(ray);
+
+            REQUIRE(xs.empty());
+        }
+    }
+}
+
+SCENARIO("A ray originates inside a sphere")
+{
+    GIVEN("sphere and ray")
+    {
+        const Ray ray = Ray(point(0, 0, 0), vector(0, 0, 1));
+        const Sphere sphere = Sphere();
+
+        WHEN("xs <- intersects(sphere, ray))")
+        {
+            const std::vector<float> xs = sphere.intersects(ray);
+
+            REQUIRE(xs.size() == 2);
+            REQUIRE(eq_f(xs[0], -1.0f));
+            REQUIRE(eq_f(xs[1], 1.0f));
+        }
+    }
+}
+
+SCENARIO("A sphere is behind a ray")
+{
+    GIVEN("sphere and ray")
+    {
+        const Ray ray = Ray(point(0, 0, 5), vector(0, 0, 1));
+        const Sphere sphere = Sphere();
+
+        WHEN("xs <- intersects(sphere, ray)")
+        {
+            const std::vector<float> xs = sphere.intersects(ray);
+
+            REQUIRE(xs.size() == 2);
+            REQUIRE(eq_f(xs[0], -6.0f));
+            REQUIRE(eq_f(xs[1], -4.0f));
+        }
+    }
+}
